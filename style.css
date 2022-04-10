@@ -94,3 +94,15 @@ body{
     background: #ff8800;
     border: 1px solid #8b4513;
 }
+.life {
+    width: 100px;
+    height: 10px;
+    margin: 7px 0;
+    background: #008000;
+}
+.monsterLife {
+    width: 100px;
+    height: 10px;
+    margin: 7px 0;
+    background: #b20000;
+}

@@ -4,42 +4,38 @@ const pedra = document.querySelector(".pedra")
 const papel = document.querySelector(".papelPlayer")
 const tesoura = document.querySelector(".tesoura")
 
+//life
+const lifePlayer = document.querySelector(".life")
+const monsterLife = document.querySelector(".monsterLife")
+
 //the choice h1
 const choicePlayerTitle = document.getElementById("choicePLayer")
 const choiceMachineTitle = document.getElementById("choiceMachine")
 
+//Funções de click
+pedra.addEventListener("click", element => startGame(element))
+papel.addEventListener("click", element => startGame(element))
+tesoura.addEventListener("click", element => startGame(element))
 
-pedra.addEventListener("click", (e) => {
-    const pedra = e.target.alt
-    //console.log(pedra)
-    choicePlayerTitle.innerHTML = pedra
-    const monsterChoice = getChoiceMachine()
-    choiceMachineTitle.innerHTML = monsterChoice
+//Função para pegar a escolha do player e o a escolha da maquina
+const startGame = (element) => {
+    const btn = element.target.alt;
 
-    if(pedra && monsterChoice == "Papel"){
-        alert("Papel ganha de pedra")
-    } else if (pedra && monsterChoice == "Tesoura"){
-        alert("Pedra ganha de tesoura")
+    if(btn == undefined){
+        btn = "Player"
     }
 
-})
-papel.addEventListener("click", (e) => {
-    const papel = e.target.alt
-    //console.log(papel)  
-    choicePlayerTitle.innerHTML = papel
-    const monsterChoice = getChoiceMachine()
-    choiceMachineTitle.innerHTML = monsterChoice
+    const monsterChoice = getChoiceMachine();
 
-})
-tesoura.addEventListener("click", (e) => {
-    const tesoura = e.target.alt
-    //console.log(tesoura)
-    choicePlayerTitle.innerHTML = tesoura
-    const monsterChoice = getChoiceMachine()
-    choiceMachineTitle.innerHTML = monsterChoice
-})
+    choicePlayerTitle.innerHTML = btn;
+    choiceMachineTitle.innerHTML = monsterChoice;
 
-function getChoiceMachine(){
+    const winner = checkTheGame(btn, monsterChoice)
+    console.log(winner)
+}
+
+function getChoiceMachine(){ //Função que retorna um escolha aleatoria com base em números aleatorios 
+
     const theRandomNunber = Math.floor(Math.random() * 3)
     let machineChoiceRandom = ""
     switch(theRandomNunber){
@@ -51,11 +47,73 @@ function getChoiceMachine(){
             machineChoiceRandom = "Papel"
             break
         }
-        case 2: {
+        default: {
             machineChoiceRandom = "Tesoura"
-            break
         }
     }
     console.log(theRandomNunber)
     return machineChoiceRandom
+
+}
+
+//Função para checar as opções
+const checkTheGame = (playerChoice, monsterChoice) => {
+    
+    let win = ""
+
+    //Monster win
+    if(playerChoice == "Pedra" && monsterChoice == "Papel"){
+        win = "Monster"
+        const playerWidth = lifePlayer.style.width = `${lifePlayer.offsetWidth - 20}px`
+        console.log(checkTheLife(playerWidth))
+
+
+    } else if (playerChoice == "Papel" && monsterChoice == "Tesoura"){
+        win = "Monster"
+        const playerWidth = lifePlayer.style.width = `${lifePlayer.offsetWidth - 20}px`
+        console.log(checkTheLife(playerWidth))
+
+
+    } else if (playerChoice == "Tesoura" && monsterChoice == "Pedra"){
+        win = "Monster"
+        const playerWidth = lifePlayer.style.width = `${lifePlayer.offsetWidth - 20}px`
+        console.log(checkTheLife(playerWidth))
+
+
+    } 
+    //Player win
+    if(playerChoice == "Pedra" && monsterChoice == "Tesoura"){
+        win = "Player"
+        const monsterWidth = monsterLife.style.width = `${monsterLife.offsetWidth - 20}px`
+        console.log(checkTheLife(monsterWidth))
+
+
+
+    } else if(playerChoice == "Papel" && monsterChoice == "Pedra"){
+        win = "Player"
+        const monsterWidth = monsterLife.style.width = `${monsterLife.offsetWidth - 20}px`
+        console.log(checkTheLife(monsterWidth))
+
+
+
+    } else if (playerChoice == "Tesoura" && monsterChoice == "Papel"){
+        win = "Player"
+        const monsterWidth = monsterLife.style.width = `${monsterLife.offsetWidth - 20}px`
+        console.log(checkTheLife(monsterWidth))
+    }
+
+    //Inpate
+    if(playerChoice == monsterChoice){
+        win = "Empate"
+    }
+
+    return win
+
+}
+
+const checkTheLife = (life) => {
+    if(life <= 0){
+        return "Death"    
+    }
+    return "live"
 }
